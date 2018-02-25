@@ -1,8 +1,13 @@
 require 'faraday'
 require 'nitlink/response'
+require 'timerizer'
 
 class Client
   def self.entries(token)
+    date_from = 1.year.ago
+    date_to = 1.year.from_now
+    date_format = '%Y-%m-%d'
+
     conn = Faraday.new(url: 'https://api.toshl.com') do |faraday|
       faraday.basic_auth(token, nil)
       faraday.response :logger
@@ -11,8 +16,8 @@ class Client
       faraday.params[:expand] = false
       faraday.params[:per_page] = 500
       faraday.params[:type] = :expense
-      faraday.params[:from] = '2018-01-01'
-      faraday.params[:to] = '2019-01-01'
+      faraday.params[:from] = date_from.strftime(date_format)
+      faraday.params[:to] = date_to.strftime(date_format)
     end
 
     response = conn.get '/entries'
@@ -23,6 +28,8 @@ class Client
       results += JSON.parse(response.body)
     end
 
-    results.select { |entry| entry.has_key?('repeat') }
+    results
+      .select { |entry| entry.has_key?('repeat') }
+      .uniq { |entry| entry['repeat']['id'] }
   end
 end
