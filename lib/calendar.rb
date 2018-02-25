@@ -9,17 +9,9 @@ class Calendar
     icalendar = Icalendar::Calendar.new
 
     @entries.each do |entry|
-      date = Date.strptime(entry['date'], '%Y-%m-%d')
-      description = entry['desc'].strip
-
-      if description == ''
-        # TODO: Use other metadata to build a more useful description
-        description = 'Toshl Repeating Entry'
-      end
-
       icalendar.event do |event|
-        event.dtstart = Icalendar::Values::Date.new(date.strftime('%Y%m%d'))
-        event.summary = description
+        event.dtstart = Icalendar::Values::Date.new(entry.date.strftime('%Y%m%d'))
+        event.summary = entry.description
       end
     end
 

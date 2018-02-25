@@ -1,6 +1,7 @@
 require 'faraday'
 require 'nitlink/response'
 require 'timerizer'
+require_relative './entry'
 
 class Client
   def self.entries(token)
@@ -31,5 +32,6 @@ class Client
     results
       .select { |entry| entry.has_key?('repeat') }
       .uniq { |entry| entry['repeat']['id'] }
+      .map { |data| Entry.new(data) }
   end
 end

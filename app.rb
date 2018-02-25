@@ -11,7 +11,7 @@ get '/cal' do
   entries = Client.entries(token)
   if params['debug']
     content_type :json
-    return JSON.dump(entries)
+    return JSON.dump(entries.map(&:data))
   end
 
   calendar = Calendar.new(entries)
