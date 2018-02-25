@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Toshl Calendar</title>
+  <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <div class="container">
+    <div>
+      Enter your <a href="https://developer.toshl.com/apps/">personal token from Toshl</a>
+    </div>
+
+    <input autofocus spellcheck="off" oninput="onTokenChange(event)"/>
+
+    <div>
+      And use this URL to get your calendar:
+    </div>
+
+    <div id="urlContainer">~</div>
+  </div>
+
+  <script>
+    const currentHost = `${location.protocol}//${location.hostname}${location.port ? ':' + location.port : ''}`;
+
+    function onTokenChange(event) {
+      const newToken = event.target.value && event.target.value.trim();
+
+      if (newToken && newToken.length > 0) {
+        document.getElementById('urlContainer').innerHTML = generateUrlContent(newToken);
+      } else {
+        document.getElementById('urlContainer').innerHTML = '~';
+      }
+    }
+
+    function generateUrlContent(token) {
+      const url = `${currentHost}/cal?token=${token}`;
+      const container = document.createElement('div');
+
+      const calendarEmojiLink = document.createElement('a');
+      calendarEmojiLink.href = url;
+      calendarEmojiLink.appendChild(document.createTextNode('📆'));
+      container.appendChild(calendarEmojiLink);
+
+      const calendarLink = document.createElement('a');
+      calendarLink.href = url;
+      calendarLink.className = 'calendar-link';
+      calendarLink.appendChild(document.createTextNode(url));
+      container.appendChild(calendarLink);
+
+      return container.innerHTML;
+    }
+  </script>
+</body>
+</html>
