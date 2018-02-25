@@ -5,6 +5,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     multipart-post (2.0.0)
     mustermann (1.0.2)
+    nitlink (1.1.0)
     rack (2.0.4)
     rack-protection (2.0.1)
       rack
@@ -20,6 +21,7 @@ PLATFORMS
 
 DEPENDENCIES
   faraday
+  nitlink (~> 1.1)
   sinatra
 
 RUBY VERSION

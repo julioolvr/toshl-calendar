@@ -3,3 +3,4 @@ ruby '2.5.0'
 
 gem 'sinatra'
 gem 'faraday'
+gem 'nitlink', '~> 1.1'
